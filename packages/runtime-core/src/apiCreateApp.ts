@@ -201,6 +201,7 @@ export type CreateAppFunction<HostElement> = (
 
 let uid = 0
 
+
 export function createAppAPI<HostElement>(
   render: RootRenderFunction<HostElement>,
   hydrate?: RootHydrateFunction,
@@ -214,8 +215,9 @@ export function createAppAPI<HostElement>(
       __DEV__ && warn(`root props passed to app.mount() must be an object.`)
       rootProps = null
     }
-
+    //创建上下文
     const context = createAppContext()
+    //插件
     const installedPlugins = new WeakSet()
 
     let isMounted = false

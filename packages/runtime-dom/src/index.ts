@@ -40,6 +40,9 @@ declare module '@vue/reactivity' {
   }
 }
 
+//extend是用来合并对象的
+//patchProp是操作属性的，例如class，style，event等等
+//nodeOps是用来操作dom的
 const rendererOptions = /*#__PURE__*/ extend({ patchProp }, nodeOps)
 
 // lazy create the renderer - this makes core renderer logic tree-shakable
@@ -49,6 +52,8 @@ let renderer: Renderer<Element | ShadowRoot> | HydrationRenderer
 let enabledHydration = false
 
 function ensureRenderer() {
+  //判断是否已经创建了渲染器，没有的话就创建
+  //单例模式
   return (
     renderer ||
     (renderer = createRenderer<Node, Element | ShadowRoot>(rendererOptions))
@@ -73,6 +78,13 @@ export const hydrate = ((...args) => {
 }) as RootHydrateFunction
 
 export const createApp = ((...args) => {
+  //ensureRenderer()就是创建一个渲染器对象，然后调用这个渲染器对象的createApp，会返回一个app
+
+    // return {
+    //   render,
+    //   hydrate,
+    //   createApp: createAppAPI(render, hydrate),
+    // }
   const app = ensureRenderer().createApp(...args)
 
   if (__DEV__) {
